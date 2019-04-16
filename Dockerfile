@@ -5,7 +5,7 @@ LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 ENV PATH="/root/.poetry/bin:${PATH}"
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install -y -q python3-minimal unzip wget
+RUN apt-get update -q && apt-get install -y -q openssh-client python3-minimal python3-pip unzip wget
 
 ENV PACKER_VERSION=1.4.0
 ENV PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
@@ -22,5 +22,8 @@ RUN wget -O /tmp/terraform-inventory.zip ${TERRAFORM_INVENTORY_URL} && unzip /tm
 ENV POETRY_VERSION=0.12.12
 ENV POETRY_URL=https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
 RUN wget -qO- ${POETRY_URL} | python3 && sed -i 's/python/python3/' /root/.poetry/bin/poetry
+
+ENV AMICLEANER_VERSION=0.2.2
+RUN pip3 install aws-amicleaner==${AMICLEANER_VERSION}
 
 RUN apt-get clean && rm -rf /tmp/* /var/cache/* /var/log/* /var/lib/apt/list/*
