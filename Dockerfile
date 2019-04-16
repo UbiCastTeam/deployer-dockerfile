@@ -1,14 +1,22 @@
 FROM debian:stable-slim
+
 LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 
-ENV ANSIBLE_VERSION=2.7.10
-ENV TERRAFORM_VERSION=0.11.13
+ENV PATH="/root/.poetry/bin:${PATH}"
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN \
-    apt update && \
-    apt install -y wget unzip && \
-    wget -O /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
-    unzip /tmp/terraform.zip -d /usr/local/bin && \
-    apt install -y python3-minimal python3-pip && \
-    pip3 install ansible==${ANSIBLE_VERSION} && \
-    rm -rf /var/cache/* /var/lib/apt/lists/* /var/log/* /tmp/*
+RUN apt-get update -q && apt-get install -y -q python3-minimal unzip wget
+
+ENV TERRAFORM_VERSION=0.11.13
+ENV TERRAFORM_URL=https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+RUN wget -O /tmp/terraform.zip ${TERRAFORM_URL} && unzip /tmp/terraform.zip -d /usr/local/bin
+
+ENV TERRAFORM_INVENTORY_VERSION=0.8
+ENV TERRAFORM_INVENTORY_URL=https://github.com/adammck/terraform-inventory/releases/download/v${TERRAFORM_INVENTORY_VERSION}/terraform-inventory_v${TERRAFORM_INVENTORY_VERSION}_linux_amd64.zip
+RUN wget -O /tmp/terraform-inventory.zip ${TERRAFORM_INVENTORY_URL} && unzip /tmp/terraform-inventory.zip -d /usr/local/bin
+
+ENV POETRY_VERSION=0.12.12
+ENV POETRY_URL=https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
+RUN wget -qO- ${POETRY_URL} | python3 && sed -i 's/python/python3/' /root/.poetry/bin/poetry
+
+RUN apt-get clean && rm -rf /tmp/* /var/cache/* /var/log/* /var/lib/apt/list/*
