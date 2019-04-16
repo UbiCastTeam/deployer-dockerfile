@@ -7,6 +7,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -q && apt-get install -y -q python3-minimal unzip wget
 
+ENV PACKER_VERSION=1.4.0
+ENV PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
+RUN wget -O /tmp/packer.zip ${PACKER_URL} && unzip /tmp/packer.zip -d /usr/local/bin
+
 ENV TERRAFORM_VERSION=0.11.13
 ENV TERRAFORM_URL=https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN wget -O /tmp/terraform.zip ${TERRAFORM_URL} && unzip /tmp/terraform.zip -d /usr/local/bin
