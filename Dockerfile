@@ -5,7 +5,7 @@ LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 ENV PATH="/root/.poetry/bin:${PATH}"
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install -y -q openssh-client python3-minimal python3-pip unzip wget
+RUN apt-get update -q && apt-get install -y -q openssh-client python3-minimal python3-pip python3-venv unzip wget
 
 ENV PACKER_VERSION=1.4.0
 ENV PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
