@@ -5,7 +5,7 @@ LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 ENV PATH="/root/.poetry/bin:${PATH}"
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update -q && apt-get install -y -q openssh-client python3-minimal python3-pip python3-venv unzip wget
+RUN apt-get update -q && apt-get install -y -q git make openssh-client python3-minimal python3-pip python3-venv unzip wget
 
 ENV PACKER_VERSION=1.4.0
 ENV PACKER_URL=https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip
@@ -23,7 +23,9 @@ ENV POETRY_VERSION=0.12.12
 ENV POETRY_URL=https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
 RUN wget -qO- ${POETRY_URL} | python3 && sed -i 's/python/python3/' /root/.poetry/bin/poetry
 
+COPY wrapper-ansible-playbook.sh /usr/local/bin/ansible-playbook
+
 ENV AMICLEANER_VERSION=0.2.2
 RUN pip3 install aws-amicleaner==${AMICLEANER_VERSION}
 
-RUN apt-get clean && rm -rf /tmp/* /var/cache/* /var/log/* /var/lib/apt/list/*
+RUN apt-get clean && rm -rf /root/.cache/* /tmp/* /var/cache/* /var/log/* /var/lib/apt/list/*
