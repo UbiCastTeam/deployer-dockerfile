@@ -19,7 +19,7 @@ ENV TERRAFORM_INVENTORY_VERSION=0.8
 ENV TERRAFORM_INVENTORY_URL=https://github.com/adammck/terraform-inventory/releases/download/v${TERRAFORM_INVENTORY_VERSION}/terraform-inventory_v${TERRAFORM_INVENTORY_VERSION}_linux_amd64.zip
 RUN wget -O /tmp/terraform-inventory.zip ${TERRAFORM_INVENTORY_URL} && unzip /tmp/terraform-inventory.zip -d /usr/local/bin
 
-ENV POETRY_VERSION=0.12.12
+ENV POETRY_VERSION=0.12.14
 ENV POETRY_URL=https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py
 RUN wget -qO- ${POETRY_URL} | python3 && sed -i 's/python/python3/' /root/.poetry/bin/poetry
 
