@@ -28,4 +28,6 @@ COPY wrapper-ansible-playbook.sh /usr/local/bin/ansible-playbook
 ENV AMICLEANER_VERSION=0.2.2
 RUN pip3 install aws-amicleaner==${AMICLEANER_VERSION}
 
+RUN pip3 install pip-tools
+
 RUN apt-get clean && rm -rf /root/.cache/* /tmp/* /var/cache/* /var/log/* /var/lib/apt/list/*
