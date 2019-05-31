@@ -4,7 +4,6 @@ LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 
 RUN \
     apk add \
-        ansible \
         bash \
         gcc \
         git \
