@@ -4,6 +4,8 @@ LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 
 ENV PATH="/root/.poetry/bin:${PATH}"
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN apt-get update -q && apt-get install -y -q git make openssh-client python3-minimal python3-pip python3-venv unzip wget
 
