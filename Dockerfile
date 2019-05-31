@@ -6,10 +6,15 @@ RUN \
     apk add \
         ansible \
         bash \
+        gcc \
         git \
         make \
+        libc-dev \
+        libffi-dev \
         openssh-client \
+        openssl-dev \
         python3 \
+        python3-dev \
         terraform \
         unzip \
         wget \
