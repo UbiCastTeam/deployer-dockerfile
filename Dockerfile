@@ -1,4 +1,6 @@
-FROM alpine:3.9
+# BUILDER
+
+FROM alpine:latest AS builder
 
 LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
 
@@ -7,15 +9,10 @@ ENV PATH ${VENV}/bin:${PATH}
 
 RUN \
     apk add \
-        bash \
         gcc \
-        git \
-        make \
         libc-dev \
         libffi-dev \
-        openssh-client \
         openssl-dev \
-        python3 \
         python3-dev \
         unzip \
         wget \
@@ -38,3 +35,21 @@ RUN \
 
 ENV ANSIBLE_VERSION 2.8.1
 RUN pip install ansible==${ANSIBLE_VERSION}
+
+# IMAGE
+
+FROM alpine:latest
+
+LABEL maintainer="Nicolas Karolak <nicolas.karolak@ubicast.eu>"
+
+ENV VENV /usr/local/pyvenv
+ENV PATH ${VENV}/bin:${PATH}
+
+RUN apk add \
+    bash \
+    git \
+    make \
+    openssh-client \
+    python3
+COPY --from=builder /usr/local/bin/* /usr/local/bin/
+COPY --from=builder ${VENV} ${VENV}
